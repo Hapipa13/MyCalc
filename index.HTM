@@ -1,0 +1,275 @@
+
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calc</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="manifest" href="manifest.json">
+    <link rel="icon" href="icons/icon-512x512.png" sizes="512x512" type="image/png">
+    <style>
+        
+    </style>
+</head>
+<body>
+    <script>
+        if ('serviceWorker' in navigator) {
+          window.addEventListener('load', () => {
+            navigator.serviceWorker.register('service-worker.js')
+              .then((registration) => {
+                console.log('Service Worker registered with scope: ', registration.scope);
+              })
+              .catch((error) => {
+                console.log('Service Worker registration failed: ', error);
+              });
+          });
+        }
+      </script>
+      
+
+    <h1>حاسبة علمية</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>العملية</th>
+                <th>القانون</th>
+                <th>إدخال القيم</th>
+                <th>النتيجة</th>
+                <th>صيغة الأبعاد</th>
+                <th>الأزرار</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>العجلة</td>
+                <td>العجلة = (السرعة النهائية - السرعة الابتدائية) / الزمن</td>
+                <td>
+                    <input type="number" id="initialSpeed" placeholder="السرعة الابتدائية (m/s)">
+                    <input type="number" id="finalSpeed" placeholder="السرعة النهائية (m/s)">
+                    <input type="number" id="time" placeholder="الزمن (s)">
+                </td>
+                <td><input type="text" id="accelerationResult" readonly></td>
+                <td><input type="text" id="accelerationDimensions" readonly></td>
+                <td>
+                    <button onclick="calculateAcceleration()">احسب العجلة</button>
+                    <button onclick="showAccelerationDimensions()">صيغة الأبعاد</button>
+                </td>
+            </tr>
+            <tr>
+                <td>السرعة</td>
+                <td>السرعة = المسافة / الزمن</td>
+                <td>
+                    <input type="number" id="distance" placeholder="المسافة (m)">
+                    <input type="number" id="speedTime" placeholder="الزمن (s)">
+                </td>
+                <td><input type="text" id="speedResult" readonly></td>
+                <td><input type="text" id="speedDimensions" readonly></td>
+                <td>
+                    <button onclick="calculateSpeed()">احسب السرعة</button>
+                    <button onclick="showSpeedDimensions()">صيغة الأبعاد</button>
+                </td>
+            </tr>
+            <tr>
+                <td>مساحة المستطيل</td>
+                <td>المساحة = الطول × العرض</td>
+                <td>
+                    <input type="number" id="length" placeholder="الطول (m)">
+                    <input type="number" id="width" placeholder="العرض (m)">
+                </td>
+                <td><input type="text" id="rectangleAreaResult" readonly></td>
+                <td><input type="text" id="rectangleAreaDimensions" readonly></td>
+                <td>
+                    <button onclick="calculateRectangleArea()">احسب المساحة</button>
+                    <button onclick="showRectangleAreaDimensions()">صيغة الأبعاد</button>
+                </td>
+            </tr>
+            <tr>
+                <td>مساحة الدائرة</td>
+                <td>المساحة = π × نصف القطر²</td>
+                <td>
+                    <input type="number" id="radius" placeholder="نصف القطر (m)">
+                </td>
+                <td><input type="text" id="circleAreaResult" readonly></td>
+                <td><input type="text" id="circleAreaDimensions" readonly></td>
+                <td>
+                    <button onclick="calculateCircleArea()">احسب المساحة</button>
+                    <button onclick="showCircleAreaDimensions()">صيغة الأبعاد</button>
+                </td>
+            </tr>
+            <tr>
+                <td>مساحة الكرة</td>
+                <td>المساحة = 4 × π × نصف القطر²</td>
+                <td>
+                    <input type="number" id="sphereRadius" placeholder="نصف القطر (m)">
+                </td>
+                <td><input type="text" id="sphereAreaResult" readonly></td>
+                <td><input type="text" id="sphereAreaDimensions" readonly></td>
+                <td>
+                    <button onclick="calculateSphereArea()">احسب المساحة</button>
+                    <button onclick="showSphereAreaDimensions()">صيغة الأبعاد</button>
+                </td>
+            </tr>
+            <tr>
+                <td>مساحة المربع</td>
+                <td>المساحة = الجانب × الجانب</td>
+                <td>
+                    <input type="number" id="side" placeholder="الجانب (m)">
+                </td>
+                <td><input type="text" id="squareAreaResult" readonly></td>
+                <td><input type="text" id="squareAreaDimensions" readonly></td>
+                <td>
+                    <button onclick="calculateSquareArea()">احسب المساحة</button>
+                    <button onclick="showSquareAreaDimensions()">صيغة الأبعاد</button>
+                </td>
+            </tr>
+            <tr>
+                <td>مساحة المثلث</td>
+                <td>المساحة = 0.5 × القاعدة × الارتفاع</td>
+                <td>
+                    <input type="number" id="base" placeholder="القاعدة (m)">
+                    <input type="number" id="height" placeholder="الارتفاع (m)">
+                </td>
+                <td><input type="text" id="triangleAreaResult" readonly></td>
+                <td><input type="text" id="triangleAreaDimensions" readonly></td>
+                <td>
+                    <button onclick="calculateTriangleArea()">احسب المساحة</button>
+                    <button onclick="showTriangleAreaDimensions()">صيغة الأبعاد</button>
+                </td>
+            </tr>
+            <tr>
+                <td>حجم المكعب</td>
+                <td>الحجم = الجانب³</td>
+                <td>
+                    <input type="number" id="cubeSide" placeholder="الجانب (m)">
+                </td>
+                <td><input type="text" id="cubeVolumeResult" readonly></td>
+                <td><input type="text" id="cubeVolumeDimensions" readonly></td>
+                <td>
+                    <button onclick="calculateCubeVolume()">احسب الحجم</button>
+                    <button onclick="showCubeVolumeDimensions()">صيغة الأبعاد</button>
+                </td>
+            </tr>
+            <tr>
+                <td>حجم متوازي المستطيلات</td>
+                <td>الحجم = الطول × العرض × الارتفاع</td>
+                <td>
+                    <input type="number" id="rectPrismLength" placeholder="الطول (m)">
+                    <input type="number" id="rectPrismWidth" placeholder="العرض (m)">
+                    <input type="number" id="rectPrismHeight" placeholder="الارتفاع (m)">
+                </td>
+                <td><input type="text" id="rectPrismVolumeResult" readonly></td>
+                <td><input type="text" id="rectPrismVolumeDimensions" readonly></td>
+                <td>
+                    <button onclick="calculateRectPrismVolume()">احسب الحجم</button>
+                    <button onclick="showRectPrismVolumeDimensions()">صيغة الأبعاد</button>
+                </td>
+            </tr>
+            <tr>
+                <td>حجم الأسطوانة</td>
+                <td>الحجم = π × نصف القطر² × الارتفاع</td>
+                <td>
+                    <input type="number" id="cylinderRadius" placeholder="نصف القطر (m)">
+                    <input type="number" id="cylinderHeight" placeholder="الارتفاع (m)">
+                </td>
+                <td><input type="text" id="cylinderVolumeResult" readonly></td>
+                <td><input type="text" id="cylinderVolumeDimensions" readonly></td>
+                <td>
+                    <button onclick="calculateCylinderVolume()">احسب الحجم</button>
+                    <button onclick="showCylinderVolumeDimensions()">صيغة الأبعاد</button>
+                </td>
+            </tr>
+            <tr>
+                <td>القوة</td>
+                <td>القوة = الكتلة × التسارع</td>
+                <td>
+                    <input type="number" id="forceMass" placeholder="الكتلة (kg)">
+                    <input type="number" id="forceAcceleration" placeholder="التسارع (m/s²)">
+                </td>
+                <td><input type="text" id="forceResult" readonly></td>
+                <td><input type="text" id="forceDimensions" readonly></td>
+                <td>
+                    <button onclick="calculateForce()">احسب القوة</button>
+                    <button onclick="showForceDimensions()">صيغة الأبعاد</button>
+                </td>
+            </tr>
+            <tr>
+                <td>الشغل</td>
+                <td>الشغل = القوة × المسافة</td>
+                <td>
+                    <input type="number" id="workForce" placeholder="القوة (N)">
+                    <input type="number" id="workDistance" placeholder="المسافة (m)">
+                </td>
+                <td><input type="text" id="workResult" readonly></td>
+                <td><input type="text" id="workDimensions" readonly></td>
+                <td>
+                    <button onclick="calculateWork()">احسب الشغل</button>
+                    <button onclick="showWorkDimensions()">صيغة الأبعاد</button>
+                </td>
+            </tr>
+            <tr>
+                <td>الضغط</td>
+                <td>الضغط = القوة / المساحة</td>
+                <td>
+                    <input type="number" id="pressureForce" placeholder="القوة (N)">
+                    <input type="number" id="pressureArea" placeholder="المساحة (m²)">
+                </td>
+                <td><input type="text" id="pressureResult" readonly></td>
+                <td><input type="text" id="pressureDimensions" readonly></td>
+                <td>
+                    <button onclick="calculatePressure()">احسب الضغط</button>
+                    <button onclick="showPressureDimensions()">صيغة الأبعاد</button>
+                </td>
+            </tr>
+            <tr>
+                <td>كمية التحرك</td>
+                <td>كمية التحرك = الكتلة × السرعة</td>
+                <td>
+                    <input type="number" id="momentumMass" placeholder="الكتلة (kg)">
+                    <input type="number" id="momentumSpeed" placeholder="السرعة (m/s)">
+                </td>
+                <td><input type="text" id="momentumResult" readonly></td>
+                <td><input type="text" id="momentumDimensions" readonly></td>
+                <td>
+                    <button onclick="calculateMomentum()">احسب كمية التحرك</button>
+                    <button onclick="showMomentumDimensions()">صيغة الأبعاد</button>
+                </td>
+            </tr>
+            <tr>
+                <td>الوزن</td>
+                <td>الوزن = الكتلة × تسارع الجاذبية</td>
+                <td>
+                    <input type="number" id="weightMass" placeholder="الكتلة (kg)">
+                </td>
+                <td><input type="text" id="weightResult" readonly></td>
+                <td><input type="text" id="weightDimensions" readonly></td>
+                <td>
+                    <button onclick="calculateWeight()">احسب الوزن</button>
+                    <button onclick="showWeightDimensions()">صيغة الأبعاد</button>
+                </td>
+            </tr>
+            <tr>
+                <td>الكثافة</td>
+                <td>الكثافة = الكتلة / الحجم</td>
+                <td>
+                    <input type="number" id="densityMass" placeholder="الكتلة (kg)">
+                    <input type="number" id="densityVolume" placeholder="الحجم (m³)">
+                </td>
+                <td><input type="text" id="densityResult" readonly></td>
+                <td><input type="text" id="densityDimensions" readonly></td>
+                <td>
+                    <button onclick="calculateDensity()">احسب الكثافة</button>
+                    <button onclick="showDensityDimensions()">صيغة الأبعاد</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <script>
+        
+    </script>
+    <script src="script.js"></script>
+</body>
+</html>
+

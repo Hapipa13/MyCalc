@@ -1,0 +1,45 @@
+body{
+    font-family: cursive;
+}
+h1{
+    text-align: center;
+    font-family: monospace;
+    font-size: 34px;
+    color: chocolate;
+}
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+    direction: rtl;
+}
+table tr{
+    padding: 20px;
+}
+th, td {
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+th {
+    background-color: darkgray;
+}
+input[type="number"], input[type="text"] {
+    width: 100%;
+    padding: 8px;
+    box-sizing: border-box;
+}
+button {
+    padding: 8px 16px;
+    margin: 4px;
+    cursor: pointer;
+}
+button{
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+button:hover{
+    background-color: #45a049;
+}
